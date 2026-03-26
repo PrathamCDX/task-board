@@ -15,7 +15,6 @@ async function registerHandler(req: Request, res: Response, next: NextFunction) 
     try {
         const requestBody: RegisterUserDto = req.body;
         const response = await authService.createService(requestBody);
-        console.log(response);
         res.cookie('jwt', response.token, {
             httpOnly: true,
             secure: true,
@@ -25,7 +24,7 @@ async function registerHandler(req: Request, res: Response, next: NextFunction) 
         res.status(StatusCodes.CREATED).json({
             success: true,
             message: 'User Created Successfully',
-            data : response.data,
+            data : response,
             error: {}
         });
     } catch (error) {

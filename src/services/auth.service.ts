@@ -1,7 +1,7 @@
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 import logger from '../configs/logger.config';
-import { LoginUserDto, RegisterUserDto } from '../dtos/user.dto';
+import { LoginUserDto, RegisterUserDto, UserResponse } from '../dtos/user.dto';
 import UserRepository from '../repository/user.repository';
 import { checkPassword, createToken, verifyToken } from '../utils/auth/auth';
 import { BadRequestError, InternalServerError, NotFoundError, UnauthorizedError } from '../utils/errors/app.error';
@@ -17,7 +17,6 @@ class AuthService {
     async createService(userData:RegisterUserDto){
         try {
             const checkUser = await this.userRepository.findByEmail(userData.email);
-            console.log(checkUser);
             if(checkUser){
                 throw new BadRequestError('User already exist!!');
             }
@@ -25,17 +24,20 @@ class AuthService {
             const {fullName,email,password,roleId} =  userData;
 
             const response=await this.userRepository.create({fullName,email,password,roleId});
-            console.log(response);
             const token= createToken({id:response.id,email:response.email});
-            return {
-                token:token,
-                data: response 
+            const userResponse: UserResponse = {
+                id: response.id,
+                fullName: response.fullName,
+                email: response.email,
+                token: token
             };
+
+            return userResponse;
+            
         } catch (error) {
             if(error instanceof BadRequestError) {
                 throw error;
             }
-            console.log(error);
             throw new InternalServerError('Facing some error while creating user');
         }
     }
