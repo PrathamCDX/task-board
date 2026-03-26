@@ -9,3 +9,10 @@ export type LoginUserDto = {
     email: string
     password: string
 }
+
+export type UserResponse = {
+  id: number;
+  fullName: string;
+  email: string;
+  token: string;
+};
