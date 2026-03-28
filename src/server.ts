@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 
 import logger from './configs/logger.config';
+import {frontendConfig} from './configs/server.config';
 import { serverConfig } from './configs/server.config';
 import sequelize from './db/models/sequelize';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
@@ -12,7 +13,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: frontendConfig.FRONTEND_URL,
         credentials: true,
     })
 );
