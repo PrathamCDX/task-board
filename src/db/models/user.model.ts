@@ -25,7 +25,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
     declare createdAt: CreationOptional<Date | null>;
 
     declare role?:NonAttribute<Role>;
-    declare tasks?:NonAttribute<Task[]>;
+    declare assignedTasks?:NonAttribute<Task[]>;
+    declare createdTasks?:NonAttribute<Task[]>;
     declare projects?:NonAttribute<Project[]>;
 
     // declare getRoles: BelongsToManyGetAssociationsMixin<any>;
@@ -33,7 +34,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
 
     static associations: {
         role:Association<User,Role>;
-        tasks:Association<User,Task>;
+        assignedTasks:Association<User,Task>;
+        createdTasks:Association<User,Task>;
         projects:Association<User,Project>;
     };
 }
