@@ -8,6 +8,8 @@ import {
     NonAttribute,
 } from 'sequelize';
 
+import Comment from './comment.model';
+import Project from './project.model';
 import sequelize from './sequelize';
 import Status from './status.model';
 import User from './user.model';
@@ -26,14 +28,16 @@ class Task extends Model<InferAttributes<Task>, InferCreationAttributes<Task>>{
 
     declare assigner?: NonAttribute<User>;
     declare assignee?: NonAttribute<User>;
-    // declare project?: NonAttribute<Project>;
+    declare project?: NonAttribute<Project>;
     declare status?: NonAttribute<Status>;
+    declare comments?: NonAttribute<Comment[]>;
 
     static associations: {
         assigner:Association<User,Task>;
         assignee:Association<User,Task>;
         status:Association<Status,Task>;
-        // projects:Association<User,any>;
+        projects:Association<User,Project>;
+        comments:Association<Task,Comment>;
     };
 }
 

@@ -1,18 +1,27 @@
 import {
+    Association,
     CreationOptional,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
     Model,
+    NonAttribute,
 } from 'sequelize';
 
 import sequelize from './sequelize';
+import Task from './task.model';
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
     declare id: CreationOptional<number>;
     declare name: string;
     declare description: string | null;
     declare createdAt: CreationOptional<Date>;
+
+    declare tasks?: NonAttribute<Task[]>;
+
+    static associations: {
+        tasks:Association<Project,Task>;
+    };
 }
 
 Project.init({

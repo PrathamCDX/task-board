@@ -1,15 +1,24 @@
 import {
+    Association,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
     Model,
+    NonAttribute,
 } from 'sequelize';
 
 import sequelize from './sequelize';
+import User from './user.model';
 
 class ProjectUser extends Model<InferAttributes<ProjectUser>, InferCreationAttributes<ProjectUser>> {
     declare projectId: number;
     declare userId: number;
+
+    declare users?: NonAttribute<User[]>;
+
+    static associations: {
+        users:Association<User,ProjectUser>;
+    };
 }
 
 ProjectUser.init({
