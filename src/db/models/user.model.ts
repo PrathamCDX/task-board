@@ -10,6 +10,8 @@ import {
 } from 'sequelize';
 
 import { hashPassword } from '../../utils/auth/auth';
+import Project from './project.model';
+import Role from './role.model';
 import sequelize from './sequelize';
 import Task from './task.model';
 
@@ -22,17 +24,19 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
     declare deletedAt :CreationOptional<Date | null>;
     declare createdAt: CreationOptional<Date | null>;
 
-    //    declare role?:NonAttribute<any>;
-    declare tasks?:NonAttribute<Task[]>;
-    //    declare projects?:NonAttribute<any[]>;
+    declare role?:NonAttribute<Role>;
+    declare assignedTasks?:NonAttribute<Task[]>;
+    declare createdTasks?:NonAttribute<Task[]>;
+    declare projects?:NonAttribute<Project[]>;
 
     // declare getRoles: BelongsToManyGetAssociationsMixin<any>;
     // declare getSkills: BelongsToManyGetAssociationsMixin<any>;
 
     static associations: {
-        // role:Association<User,any>;
-        tasks:Association<User,Task>;
-        // projects:Association<User,any>;
+        role:Association<User,Role>;
+        assignedTasks:Association<User,Task>;
+        createdTasks:Association<User,Task>;
+        projects:Association<User,Project>;
     };
 }
 
